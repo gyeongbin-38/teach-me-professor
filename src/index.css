@@ -5,10 +5,22 @@
 @tailwind utilities;
 
 * { box-sizing: border-box; }
-body { font-family: 'Noto Sans KR', sans-serif; background-color: #f8fafc; }
+body { font-family: 'Noto Sans KR', sans-serif; background-color: #f1f5f9; }
 
 @layer components {
-  .btn-primary { @apply bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors font-medium; }
-  .btn-secondary { @apply bg-white text-primary-600 border border-primary-600 px-4 py-2 rounded-lg hover:bg-primary-50 transition-colors font-medium; }
-  .card { @apply bg-white rounded-xl shadow-sm border border-gray-100 p-6; }
+  .btn-primary {
+    @apply bg-exam-600 text-white px-4 py-2 rounded-xl hover:bg-exam-700 active:bg-exam-800 transition-all font-semibold shadow-sm;
+  }
+  .btn-secondary {
+    @apply bg-white text-exam-600 border-2 border-exam-200 px-4 py-2 rounded-xl hover:bg-exam-50 hover:border-exam-300 transition-all font-semibold;
+  }
+  .btn-heat {
+    @apply bg-heat-500 text-white px-4 py-2 rounded-xl hover:bg-heat-600 transition-all font-semibold shadow-sm;
+  }
+  .card {
+    @apply bg-white rounded-2xl shadow-sm border border-slate-100 p-6;
+  }
+  .card-exam {
+    @apply bg-white rounded-2xl shadow-md border-2 border-exam-100 p-6;
+  }
 }

@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import Layout from './components/layout/Layout';
+import AppShell from './components/layout/AppShell';
 import HomePage from './pages/HomePage';
 import UploadPage from './pages/UploadPage';
 import PlanPage from './pages/PlanPage';
@@ -10,7 +10,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<Layout />}>
+        <Route element={<AppShell />}>
           <Route index element={<HomePage />} />
           <Route path="upload" element={<UploadPage />} />
           <Route path="plan" element={<PlanPage />} />

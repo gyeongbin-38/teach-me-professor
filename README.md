@@ -1,73 +1,43 @@
-# React + TypeScript + Vite
+# DeepTutor — AI 기반 대학 시험 대비 학습 플랫폼
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+대학 중간고사·기말고사를 위한 AI 맞춤 학습 서비스입니다.
 
-Currently, two official plugins are available:
+## 주요 기능
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **파일 업로드** — PDF, TXT, DOCX 형식의 강의 자료 업로드 및 텍스트 추출
+- **AI 학습 플랜** — Claude Opus가 시험일 기준으로 최적의 일별 학습 계획 수립
+- **3가지 학습 모드**
+  - ⚡ 빠른 학습 (Claude Haiku) — 핵심만 빠르게
+  - 📖 균형 학습 (Claude Sonnet) — 표준 학습
+  - 🧠 심화 학습 (Claude Sonnet) — 완벽 이해
+- **시험 일정 관리** — D-Day 카운트다운 및 긴급도 시각화
+- **퀴즈 시스템** — 객관식, O/X, 단답형 문제 자동 생성
+- **AI Q&A** — 스트리밍 방식의 실시간 질의응답
 
-## React Compiler
+## 시작하기
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+앱 내 **설정** 페이지에서 Anthropic API 키를 입력하세요.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 기술 스택
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- React 19 + TypeScript + Vite
+- Tailwind CSS
+- Zustand (상태 관리)
+- @anthropic-ai/sdk (Claude API)
+- pdfjs-dist (PDF 파싱)
+- react-dropzone (파일 업로드)
+- date-fns (날짜 계산)
+- lucide-react (아이콘)
+
+## 모델 구성
+
+| 용도 | 모델 |
+|------|------|
+| 학습 플랜 수립 | Claude Opus 4.7 |
+| 심화/균형 학습 | Claude Sonnet 4.6 |
+| 빠른 학습/퀴즈 | Claude Haiku 4.5 |

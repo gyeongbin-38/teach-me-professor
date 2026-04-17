@@ -9,18 +9,63 @@ body { font-family: 'Noto Sans KR', sans-serif; background-color: #f1f5f9; }
 
 @layer components {
   .btn-primary {
-    @apply bg-exam-600 text-white px-4 py-2 rounded-xl hover:bg-exam-700 active:bg-exam-800 transition-all font-semibold shadow-sm;
+    background-color: theme('colors.exam.600');
+    color: #fff;
+    padding: theme('spacing.2') theme('spacing.4');
+    border-radius: theme('borderRadius.xl');
+    font-weight: 600;
+    box-shadow: theme('boxShadow.sm');
+    transition: all 150ms;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    border: none;
   }
+  .btn-primary:hover { background-color: theme('colors.exam.700'); }
+  .btn-primary:active { background-color: theme('colors.exam.800'); }
+  .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+
   .btn-secondary {
-    @apply bg-white text-exam-600 border-2 border-exam-200 px-4 py-2 rounded-xl hover:bg-exam-50 hover:border-exam-300 transition-all font-semibold;
+    background-color: #fff;
+    color: theme('colors.exam.600');
+    border: 2px solid theme('colors.exam.200');
+    padding: theme('spacing.2') theme('spacing.4');
+    border-radius: theme('borderRadius.xl');
+    font-weight: 600;
+    transition: all 150ms;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
   }
+  .btn-secondary:hover {
+    background-color: theme('colors.exam.50');
+    border-color: theme('colors.exam.300');
+  }
+
   .btn-heat {
-    @apply bg-heat-500 text-white px-4 py-2 rounded-xl hover:bg-heat-600 transition-all font-semibold shadow-sm;
+    background-color: theme('colors.heat.500');
+    color: #fff;
+    padding: theme('spacing.2') theme('spacing.4');
+    border-radius: theme('borderRadius.xl');
+    font-weight: 600;
+    box-shadow: theme('boxShadow.sm');
+    transition: all 150ms;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    border: none;
   }
+  .btn-heat:hover { background-color: theme('colors.heat.600'); }
+  .btn-heat:disabled { opacity: 0.4; cursor: not-allowed; }
+
   .card {
     @apply bg-white rounded-2xl shadow-sm border border-slate-100 p-6;
   }
   .card-exam {
-    @apply bg-white rounded-2xl shadow-md border-2 border-exam-100 p-6;
+    background-color: #fff;
+    border-radius: theme('borderRadius.2xl');
+    box-shadow: theme('boxShadow.md');
+    border: 2px solid theme('colors.exam.100');
+    padding: theme('spacing.6');
   }
 }

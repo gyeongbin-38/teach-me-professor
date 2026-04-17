@@ -54,10 +54,21 @@ export interface QuizQuestion {
   difficulty: 'easy' | 'medium' | 'hard';
 }
 
+export interface Flashcard {
+  id: string;
+  front: string;   // question / term
+  back: string;    // answer / explanation
+  subject: string;
+  difficulty: 'easy' | 'medium' | 'hard';
+  reviewCount: number;
+  lastReviewed: string | null;
+}
+
 export interface AppState {
   exams: ExamInfo[];
   files: UploadedFile[];
   plans: StudyPlan[];
+  flashcards: Flashcard[];
   currentExamId: string | null;
   currentMode: LearningMode;
   apiKey: string;

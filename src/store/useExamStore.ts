@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { AppState, ExamInfo, UploadedFile, StudyPlan, LearningMode } from '../types';
+import type { AppState, ExamInfo, UploadedFile, StudyPlan, LearningMode, Flashcard } from '../types';
 
 interface Actions {
   setApiKey: (key: string) => void;
@@ -14,6 +14,9 @@ interface Actions {
   completeTask: (planId: string, dayIndex: number, taskId: string) => void;
   setLoading: (v: boolean) => void;
   setError: (e: string | null) => void;
+  addFlashcards: (cards: Flashcard[]) => void;
+  removeFlashcard: (id: string) => void;
+  reviewFlashcard: (id: string) => void;
 }
 
 export const useExamStore = create<AppState & Actions>()(
@@ -22,6 +25,7 @@ export const useExamStore = create<AppState & Actions>()(
       exams: [],
       files: [],
       plans: [],
+      flashcards: [],
       currentExamId: null,
       currentMode: 'balanced',
       apiKey: '',
@@ -52,6 +56,13 @@ export const useExamStore = create<AppState & Actions>()(
         })),
       setLoading: (isLoading) => set({ isLoading }),
       setError: (error) => set({ error }),
+      addFlashcards: (cards) => set((s) => ({ flashcards: [...s.flashcards, ...cards] })),
+      removeFlashcard: (id) => set((s) => ({ flashcards: s.flashcards.filter((c) => c.id !== id) })),
+      reviewFlashcard: (id) => set((s) => ({
+        flashcards: s.flashcards.map((c) =>
+          c.id !== id ? c : { ...c, reviewCount: c.reviewCount + 1, lastReviewed: new Date().toISOString() }
+        ),
+      })),
     }),
     { name: 'exam-app-storage' }
   )

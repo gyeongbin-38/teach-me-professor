@@ -1,11 +1,12 @@
 import { Outlet, NavLink } from 'react-router-dom';
-import { GraduationCap, FolderUp, CalendarCheck, FlameKindling, Settings2 } from 'lucide-react';
+import { GraduationCap, FolderUp, CalendarCheck, FlameKindling, Settings2, BarChart3 } from 'lucide-react';
 
 const navItems = [
   { to: '/', label: '대시보드', icon: GraduationCap, end: true },
   { to: '/upload', label: '자료 올리기', icon: FolderUp },
   { to: '/plan', label: '플랜 짜기', icon: CalendarCheck },
   { to: '/study', label: '지금 공부', icon: FlameKindling },
+  { to: '/stats', label: '통계', icon: BarChart3 },
   { to: '/settings', label: '설정', icon: Settings2 },
 ];
 

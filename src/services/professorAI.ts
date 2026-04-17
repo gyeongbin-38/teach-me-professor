@@ -1,5 +1,5 @@
 import Anthropic from '@anthropic-ai/sdk';
-import type { StudyPlan, LearningMode, DailyPlan, StudyTask, QuizQuestion, UploadedFile, ExamInfo } from '../types';
+import type { StudyPlan, LearningMode, DailyPlan, StudyTask, QuizQuestion, UploadedFile, ExamInfo, Flashcard } from '../types';
 
 function client(apiKey: string) {
   return new Anthropic({ apiKey, dangerouslyAllowBrowser: true });
@@ -175,6 +175,47 @@ JSON만 출력 (다른 텍스트 없이):
   }
 ]
 type은 "multiple" | "ox" | "short" 중 하나.`;
+
+  const res = await ai.messages.create({
+    model,
+    max_tokens: 2048,
+    messages: [{ role: 'user', content: prompt }],
+  });
+
+  const raw = res.content[0].type === 'text' ? res.content[0].text : '[]';
+  const match = raw.match(/\[[\s\S]*\]/);
+  if (!match) return [];
+  try { return JSON.parse(match[0]); } catch { return []; }
+}
+
+export async function generateFlashcards(
+  apiKey: string,
+  context: string,
+  subject: string,
+  mode: LearningMode,
+  count = 10,
+): Promise<Flashcard[]> {
+  const ai = client(apiKey);
+  const model = modeConfig[mode].model;
+  const diff = mode === 'quick' ? 'easy' : mode === 'deep' ? 'hard' : 'medium';
+
+  const prompt = `${subject} 시험 대비 플래시카드 ${count}장을 만들어 주세요.
+
+참고 자료:
+${context.slice(0, 3000)}
+
+JSON만 출력 (다른 텍스트 없이):
+[
+  {
+    "id": "fc1",
+    "front": "앞면: 용어나 질문",
+    "back": "뒷면: 정의나 답변",
+    "subject": "${subject}",
+    "difficulty": "${diff}",
+    "reviewCount": 0,
+    "lastReviewed": null
+  }
+]`;
 
   const res = await ai.messages.create({
     model,

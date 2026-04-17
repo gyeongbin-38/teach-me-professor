@@ -36,14 +36,16 @@ export default function TutorPage() {
   const subject = currentExam?.subject ?? '학습 중인 과목';
 
   useEffect(() => {
+    let conn: ReturnType<typeof connectDeepTutorChat> | null = null;
     checkServerHealth().then(online => {
       setDtOnline(online);
       if (online) {
-        const conn = connectDeepTutorChat(handleDTEvent, () => setDtOnline(false));
+        conn = connectDeepTutorChat(handleDTEvent, () => setDtOnline(false));
         setDtConn(conn);
-        return () => conn.close();
       }
     });
+    return () => { conn?.close(); };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

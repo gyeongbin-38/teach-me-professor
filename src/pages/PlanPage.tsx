@@ -79,7 +79,7 @@ export default function PlanPage() {
               : <><Sparkles className="w-5 h-5" />AI 플랜 생성</>
             }
           </button>
-          <p className="text-xs text-slate-400 text-center -mt-2">Claude Opus 4.7 사용</p>
+          <p className="text-xs text-slate-400 text-center -mt-2">Claude Opus 4 (OpenRouter) 사용</p>
         </div>
 
         {/* Right */}

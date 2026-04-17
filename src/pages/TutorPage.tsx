@@ -125,6 +125,27 @@ export default function TutorPage() {
 
   const reset = () => { setMessages([]); clear(); lastAnswerRef.current = ''; };
 
+  const renderMarkdown = (text: string) => {
+    return text.split(/\n\n+/).map((block, bi) => {
+      if (/^###\s/.test(block)) return <h3 key={bi} className="font-bold text-slate-900 text-sm mt-1">{block.replace(/^###\s/, '')}</h3>;
+      if (/^##\s/.test(block))  return <h2 key={bi} className="font-bold text-slate-900 text-base mt-1">{block.replace(/^##\s/, '')}</h2>;
+      const parts: React.ReactNode[] = [];
+      let rest = block;
+      let ki = 0;
+      while (rest) {
+        const bold = rest.match(/\*\*(.+?)\*\*/);
+        const code = rest.match(/`([^`]+)`/);
+        const first = [bold, code].filter(Boolean).sort((a, b) => (a!.index ?? 0) - (b!.index ?? 0))[0];
+        if (!first) { parts.push(<span key={ki++}>{rest}</span>); break; }
+        if (first.index! > 0) parts.push(<span key={ki++}>{rest.slice(0, first.index)}</span>);
+        if (first === bold) parts.push(<strong key={ki++} className="font-semibold">{bold![1]}</strong>);
+        else parts.push(<code key={ki++} className="bg-slate-100 text-exam-700 px-1 py-0.5 rounded text-xs font-mono">{code![1]}</code>);
+        rest = rest.slice(first.index! + first[0].length);
+      }
+      return <p key={bi} className="whitespace-pre-wrap">{parts}</p>;
+    });
+  };
+
   const capabilityConfig = {
     chat:  { label: '💬 대화 학습', icon: MessageSquareText, desc: '소크라테스식 1:1 튜터링' },
     solve: { label: '🔍 Deep Solve', icon: Brain,             desc: '문제 심층 분석' },
@@ -206,7 +227,9 @@ export default function TutorPage() {
                 <p className="text-[10px] font-bold text-exam-400 mb-1 uppercase tracking-wider">{msg.stage}</p>
               )}
               {msg.content
-                ? <p className="whitespace-pre-wrap">{msg.content}</p>
+                ? msg.role === 'user'
+                  ? <p className="whitespace-pre-wrap">{msg.content}</p>
+                  : <div className="space-y-2">{renderMarkdown(msg.content)}</div>
                 : <div className="flex gap-1 items-center py-1"><div className="w-2 h-2 bg-exam-400 rounded-full animate-bounce" style={{animationDelay:'0ms'}}/><div className="w-2 h-2 bg-exam-400 rounded-full animate-bounce" style={{animationDelay:'150ms'}}/><div className="w-2 h-2 bg-exam-400 rounded-full animate-bounce" style={{animationDelay:'300ms'}}/></div>
               }
             </div>
@@ -226,10 +249,11 @@ export default function TutorPage() {
             value={input}
             onChange={e => setInput(e.target.value)}
             onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); }}}
+            onInput={e => { const t = e.currentTarget; t.style.height = 'auto'; t.style.height = `${Math.min(t.scrollHeight, 128)}px`; }}
             placeholder={`${subject}에 대해 질문하거나 설명을 요청하세요... (Shift+Enter로 줄 바꿈)`}
             rows={1}
-            className="flex-1 resize-none border-2 border-slate-200 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:border-exam-400 transition-colors max-h-32 overflow-y-auto leading-relaxed"
-            style={{ height: 'auto', minHeight: '48px' }}
+            className="flex-1 resize-none border-2 border-slate-200 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:border-exam-400 transition-colors overflow-y-auto leading-relaxed"
+            style={{ minHeight: '48px', maxHeight: '128px' }}
           />
           <button
             onClick={handleSend}
